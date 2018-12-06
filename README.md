@@ -1,1 +1,3 @@
-# CITRUS CSS – or something
+# Planter
+
+_A HTML, CSS, and JS boilerplate for creatives._

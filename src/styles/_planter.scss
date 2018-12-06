@@ -1,27 +1,31 @@
-
 @import 'variables';
-
-//== Colors
-//
-//## Main colors, notification colors, and grays for use across Bootstrap.
-
-
 
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
 
-.body {
+body {
   color: $brand-1;
   font-family: $font-family-base;
   font-size: $font-size-base;
 }
 
-
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
-//##
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-headings;
+}
+h1 {
+  font-size: $font-size-h1;
+}
+h2 {
+  font-size: $font-size-h2;
+}
+h3 {
+  font-size: $font-size-h3;
+}
 
 
 //== Media queries breakpoints
@@ -38,6 +42,3 @@
 
 
 // So media queries don't overlap when required, provide a maximum
-$screen-xs-max:             ($screen-sm-min - 1);
-$screen-sm-max:             ($screen-md-min - 1);
-$screen-md-max:             ($screen-lg-min - 1);

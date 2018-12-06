@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700,800,900");
+body {
+  color: #000;
+  font-family: "Work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit; }
+
+h1 {
+  font-size: 2rem; }
+
+h2 {
+  font-size: 1.6rem; }
+
+h3 {
+  font-size: 1.2rem; }
+
+html {
+  margin: 12px 6%; }
+
+a {
+  text-decoration: none;
+  color: #3077fc;
+  padding-bottom: 1px;
+  transition: 0.2s ease-in all;
+  border-bottom: 2px solid transparent; }
+  a:hover {
+    color: #023daa;
+    border-bottom: 2px solid #023daa; }
+
+.logo {
+  max-width: 120px; }
+
+.main {
+  text-align: center; }
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -80%); }

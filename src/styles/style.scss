@@ -1,0 +1,34 @@
+@import 'planter';
+
+html {
+  margin: 12px 6%;
+}
+
+a {
+  text-decoration: none;
+  color: $brand-5;
+  padding-bottom: 1px;
+  transition: 0.2s ease-in all;
+  border-bottom: 2px solid transparent;
+  &:hover {
+    color: darken($brand-5, 25%);
+    border-bottom: 2px solid darken($brand-5, 25%);
+  }
+}
+
+.logo {
+  max-width: 120px;
+}
+
+.main {
+  text-align: center;
+}
+
+.container {
+  //background-color: $brand-3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -80%)
+}

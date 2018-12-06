@@ -8,35 +8,20 @@ $brand-1:                   #000;
 $brand-2:                   #fff;
 $brand-3:                   lighten($brand-1, 50%);
 $brand-4:                   lighten($brand-1, 75%);
+$brand-5:                   #3077fc;
 
 $background:                #fff;
-
-
-//== Scaffolding
-//
-//## Settings for some of the most global styles.
-
-//** Background color for `<body>`.
-$body-bg:               #fff;
-//** Global text color on `<body>`.
-$text-color:            $gray-base;
-
-//** Global textual link color.
-$link-color:            #3077fc;
-//** Link hover color set via `darken()` function.
-$link-hover-color:      darken($link-color, 15%);
-//** Link hover decoration.
-$link-hover-decoration: underline;
 
 
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700,800,900');
 
-$font-family-primary:       "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-primary:       "Work Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-secondary:     Georgia, "Times New Roman", Times, serif;
 $font-family-monospace:     Menlo, Monaco, Consolas, "Courier New", monospace;
-$font-family-base:          $font-family-sans-serif;
+$font-family-base:          $font-family-primary;
 
 $font-headings:             inherit;
 $font-size-base:            16px;

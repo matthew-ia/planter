@@ -1,8 +1,7 @@
 {
-  "name": "citrus-css",
-  "version": "1.2.0",
-  "description": "A boilerplate css structure without pulp.",
-  "main": "gulpfile.js",
+  "name": "planter",
+  "version": "0.9.0",
+  "description": "A HTML, CSS, and JS boilerplate for creatives.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +16,5 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.4"
-  },
+  }
 }
