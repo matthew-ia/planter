@@ -1,0 +1,8 @@
+
+# System file view config
+**/.DS_Store
+**/Desktop.ini
+
+.DS_Store
+node_modules
+**/.sass-cache/
