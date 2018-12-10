@@ -1,4 +1,4 @@
-import { MyClass, SOMEOTHER } from './someOther';
+import { MyClass, SOMEOTHER } from './planter';
 
 let x = 100;
 let y = 200;
