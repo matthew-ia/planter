@@ -1,8 +1,8 @@
 # Planter
 
-<img src='./pub/img/planter-logo.svg' width='200'>
+<img src='./pub/img/planter-logo.svg' width='200' align='middle'>
 
-_An HTML, CSS, and JS boilerplate for creatives._
+<p align='center'><i>An HTML, CSS, and JS boilerplate for creatives.</i></p>
 
 ## Overview
 
