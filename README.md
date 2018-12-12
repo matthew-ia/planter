@@ -1,6 +1,6 @@
 # Planter
 
-![Planter Logo](./pub/img/planter-logo.svg)
+<img src='./pub/img/planter-logo.svg' width='200'>
 
 _An HTML, CSS, and JS boilerplate for creatives._
 
