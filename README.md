@@ -1,6 +1,6 @@
 # Planter
 
-![Planter Logo](./pub/img/planter-logo.png)
+![Planter Logo](./pub/img/planter-logo.svg)
 
 _An HTML, CSS, and JS boilerplate for creatives._
 
