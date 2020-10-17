@@ -10,4 +10,4 @@ console.log(inst.x, inst.y);
 let p = 20;
 let o = SOMEOTHER;
 
-console.log(o);
+console.log(p, o);

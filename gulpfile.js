@@ -1,64 +1,119 @@
+const config = require('./planter-config');
 const gulp = require('gulp');
-const sass = require('gulp-sass');
+const { series } = require('gulp');
 const rename = require('gulp-rename');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var source = require('vinyl-source-stream');
+const merge = require('merge-stream')
+const del = require('del');
+const source = require('vinyl-source-stream');
+const sass = require('gulp-sass');
+const browserify = require('browserify');
+const babelify = require('babelify');
+const handlebars = require('gulp-hb');
+const beautify = require('gulp-beautify');
+const browserSync = require('browser-sync').create();
 
-/**
- * Customize these strings if you change your directory strucure, entry points,
- * or want to change output file names.
- */
-var paths = {
-  styles: {
-    src: './src/styles/**/*.scss',
-    dest: './pub/css/',
-    output: 'style' // .css appended by sass plugin
-  },
-  js: {
-    src: './src/js/**/*.js',
-    dest: './pub/js/',
-    entry: './src/js/main.js',
-    output: 'bundle.js' // name of file, needs file ext.
-  }
-}
-
-//Core Build tasks
+// Compile CSS using node-sass
 function styles() {
-  return gulp.src(paths.styles.src)
-      .pipe(sass().on('error', sass.logError))
-      .pipe(rename({
-        basename: paths.styles.output
-      }))
-      .pipe(gulp.dest(paths.styles.dest));
+  return gulp.src(config.styles.match)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(rename(
+      config.styles.outFile
+    ))
+    .pipe(gulp.dest(config.build.dir));
 }
 
+// Compile JS using browserify & babel
 function js() {
-  return browserify({entries: paths.js.entry, extensions: ['.js'], debug: true})
-      .transform(babelify, { presets: ['@babel/preset-env'] })
-      .bundle()
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest(paths.js.dest));
+  return browserify({
+      entries: config.js.entryFile, 
+      debug: true
+    })
+    .transform(babelify, { presets: ['@babel/preset-env'] })
+    .bundle()
+    .pipe(source(config.js.outFile))
+    .pipe(gulp.dest(config.build.dir));
 }
 
-// Watchers
-function watchStyles() {
-  gulp.watch(paths.styles.src, styles);
+// Compile HTML using handlebars
+function html() {
+  const data = {
+    site: {
+      ...config.site,
+      assets: {
+        css: config.styles.outFile,
+        js: config.js.outFile,
+        static: './static' // TODO: add as var
+      }
+    }
+  }
+  return gulp.src(config.html.entryFile)
+    .pipe(handlebars()
+      .partials(config.html.match.partials.components)
+      .partials(config.html.match.partials.layouts)
+      .helpers(require('handlebars-layouts'))
+      .helpers(config.html.match.helpers)
+      .data(config.html.match.data)
+      .data(data)
+    )
+    .pipe(beautify.html({ indent_size: 2 }))
+    .pipe(rename(
+      config.html.outFile
+    ))
+    .pipe(gulp.dest(config.build.dir));
 }
 
-function watchJS() {
-  gulp.watch(paths.js.src, js);
+function static() {
+  // Copy ./static and its contents to the build path
+  const static = gulp.src(['./static/*', '!./static/favicon.*'])
+    .pipe(gulp.dest('./build/static/'));
+
+  // Copy favicon files separately from the other static files
+  const favicons = gulp.src('./static/favicon.*')
+  .pipe(gulp.dest('./build/'));
+
+  return merge(static, favicons);
 }
 
-// Helper build tasks
-var buildStyles  = gulp.parallel(styles, watchStyles);
-var buildJS = gulp.parallel(js, watchJS);
-var build = gulp.parallel(buildStyles, buildJS);
+function watch() {
+  // Run respective build tasks once watch starts
+  const options = { ignoreInitial: false };
+  // Watch Styles
+  gulp.watch(config.styles.match, options, styles)
+    .on('change', browserSync.reload);
+  // Watch JS
+  gulp.watch(config.js.match, options, js)
+    .on('change', browserSync.reload);
+  // Watch Static (images, etc.)
+  gulp.watch('./static/*', options, static)
+    .on('change', browserSync.reload);
+  // Watch HTML (handlebars: partials, helpers, and data)
+  gulp.watch([
+    config.html.match.main,
+    config.html.match.partials.components,
+    config.html.match.partials.layouts,
+    config.html.match.helpers,
+    config.html.match.data,
+  ], options, html).on('change', browserSync.reload);
+}
 
-gulp.task(buildStyles)
-gulp.task(buildJS);
-gulp.task(build);
-gulp.task('default', build);
+function develop() {
+  browserSync.init({
+    server: './build'
+  });
+  watch();  
+}
 
-// Thanks hougasian for
-// https://gist.github.com/hougasian/4bcba36283b4a23bc1d4c81fcc42077b
+function clean() {
+  return del(`${config.build.dir}/*`);
+}
+
+exports.styles = styles;
+exports.js = js;
+exports.html = html;
+exports.static = static;
+exports.build = series(styles, js, static, html);
+exports.watch = watch;
+exports.develop = develop;
+exports.clean = clean;
+
+exports.default = develop;
