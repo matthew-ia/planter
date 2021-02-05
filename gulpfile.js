@@ -54,12 +54,11 @@ function html() {
   return gulp.src(config.html.entryFile)
     .pipe(handlebars()
       .data(SITE_DATA)
+      .data(config.html.match.data)
       .partials(config.html.match.partials)
       .partials(config.html.match.layouts)
       .helpers(require('handlebars-layouts'))
       .helpers(config.html.match.helpers)
-      .data(config.html.match.data)
-      
     )
     .pipe(beautify.html({ indent_size: 2 }))
     .pipe(rename(
