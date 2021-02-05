@@ -5,6 +5,7 @@ module.exports = {
   },
   build: {
     dir: './build',
+    static: 'static',
   },
   styles: {
     match: './src/styles/**/*.scss',
@@ -26,11 +27,9 @@ module.exports = {
     entryFile: './src/views/index.{hbs,html}',
     match : {
       main: './src/views/**/*.{hbs,html}',
-      partials: {
-        layouts: './src/views/layouts/**/*.hbs',
-        components: './src/views/components/**/*.hbs'
-      },
+      partials: './src/views/partials/**/*.hbs',
       helpers: './src/views/helpers/**/*.js',
+      layouts: './src/views/layouts/**/*.hbs',
       data: './src/data/**/*.{js,json}',
     },
     outFile: 'index.html',

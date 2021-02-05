@@ -6,11 +6,25 @@ const merge = require('merge-stream')
 const del = require('del');
 const source = require('vinyl-source-stream');
 const sass = require('gulp-sass');
+sass.compiler = require('sass');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const handlebars = require('gulp-hb');
 const beautify = require('gulp-beautify');
 const browserSync = require('browser-sync').create();
+
+// Configure site data 
+const SITE_DATA = {
+  site: {
+    ...config.site,
+    // For path resolutions based on your output paths
+    assets: {
+      css: config.styles.outFile,
+      js: config.js.outFile,
+      static: config.build.static
+    }
+  }
+}
 
 // Compile CSS using node-sass
 function styles() {
@@ -36,24 +50,16 @@ function js() {
 
 // Compile HTML using handlebars
 function html() {
-  const data = {
-    site: {
-      ...config.site,
-      assets: {
-        css: config.styles.outFile,
-        js: config.js.outFile,
-        static: './static' // TODO: add as var
-      }
-    }
-  }
+  
   return gulp.src(config.html.entryFile)
     .pipe(handlebars()
-      .partials(config.html.match.partials.components)
-      .partials(config.html.match.partials.layouts)
+      .data(SITE_DATA)
+      .partials(config.html.match.partials)
+      .partials(config.html.match.layouts)
       .helpers(require('handlebars-layouts'))
       .helpers(config.html.match.helpers)
       .data(config.html.match.data)
-      .data(data)
+      
     )
     .pipe(beautify.html({ indent_size: 2 }))
     .pipe(rename(
@@ -89,9 +95,9 @@ function watch() {
   // Watch HTML (handlebars: partials, helpers, and data)
   gulp.watch([
     config.html.match.main,
-    config.html.match.partials.components,
-    config.html.match.partials.layouts,
+    config.html.match.partials,
     config.html.match.helpers,
+    config.html.match.layouts,
     config.html.match.data,
   ], options, html).on('change', browserSync.reload);
 }

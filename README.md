@@ -1,6 +1,6 @@
 # Planter
 
-<p align='center'><img src='./pub/img/planter-logo.svg' width='200'></p>
+<p align='center'><img src='./static/planter-logo.svg' width='200'></p>
 
 <p align='center'><i>An HTML, CSS, and JS boilerplate for creatives.</i></p>
 
