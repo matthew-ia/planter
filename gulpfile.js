@@ -39,7 +39,7 @@ function styles() {
 // Compile JS using browserify & babel
 function js() {
   return browserify({
-      entries: config.js.entryFile, 
+      entries: config.js.entry, 
       debug: true
     })
     .transform(babelify, { presets: ['@babel/preset-env'] })
@@ -51,7 +51,7 @@ function js() {
 // Compile HTML using handlebars
 function html() {
   
-  return gulp.src(config.html.entryFile)
+  return gulp.src(config.html.entry)
     .pipe(handlebars()
       .data(SITE_DATA)
       .data(config.html.match.data)
@@ -61,9 +61,9 @@ function html() {
       .helpers(config.html.match.helpers)
     )
     .pipe(beautify.html({ indent_size: 2 }))
-    .pipe(rename(
-      config.html.outFile
-    ))
+    .pipe(rename((path) => {
+      path.extname = '.html';
+    }))
     .pipe(gulp.dest(config.build.dir));
 }
 

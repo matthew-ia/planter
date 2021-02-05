@@ -15,7 +15,7 @@ module.exports = {
     }
   },
   js: {
-    entryFile: './src/js/main.js',
+    entry: './src/js/main.js',
     match: './src/**/*.js',
     outFile: 'bundle.js', // name of file, needs file ext.
     options: {
@@ -24,7 +24,7 @@ module.exports = {
     }
   },
   html: {
-    entryFile: './src/views/index.{hbs,html}',
+    entry: './src/views/*.{hbs,html}',
     match : {
       main: './src/views/**/*.{hbs,html}',
       partials: './src/views/partials/**/*.hbs',
@@ -32,7 +32,6 @@ module.exports = {
       layouts: './src/views/layouts/**/*.hbs',
       data: './src/data/**/*.{js,json}',
     },
-    outFile: 'index.html',
     options: {
       beautify: true,
     }
