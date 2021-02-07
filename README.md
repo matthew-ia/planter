@@ -2,7 +2,7 @@
 
 <p align='center'><img src='./static/planter-logo.svg' width='200'></p>
 
-<p align='center'><i>An HTML, CSS, and JS boilerplate for creatives.</i></p>
+<p align='center'><i>A web project starter for folks who hate setting up projects.</i></p>
 
 ## Overview
 

@@ -1,7 +1,7 @@
 {
   "name": "planter",
   "version": "1.0.0",
-  "description": "An HTML, CSS, and JS boilerplate for creatives.",
+  "description": "A web project starter for folks who hate setting up projects.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp",
