@@ -70,7 +70,7 @@ Optionally, npm script aliases for the most useful gulp tasks have also been set
  The file `./src/js/main.js` is used as an entry point for the JS bundle. The `js` gulp task uses `babel` to transpile and `browserify` to bundle `main.js` into a single browser-ready JS file, `bundle.js`. 
 
 ### What's an entry point?
-Essentially, Browserify uses an entry point file(s) to determine where it should start looking to bundle all the dependencies of _that_ file. You can split your code into multiple files, organize them however you want, in non-browser-friendly syntaxes that you like (Node, ES6, etc.) and then bundle them all into one file that browser _can_ read. 
+Essentially, Browserify uses an entry point file(s) to determine where it should start looking to bundle all the dependencies of _that_ file. You can split your code into multiple files, organize them however you want, in non-browser-friendly syntaxes that you like (Node, ES6, etc.) and then bundle them all into one file that the browser _can_ interpret. 
 
 [Read more about Browserify](https://github.com/browserify/browserify-handbook#how-browserify-works), how it works, and how you could extend this setup to take advantage of code splitting with multiple bundles for more complex projects. 
 
@@ -95,9 +95,9 @@ The gulp tasks for building HTML use `gulp-hb` (powered by `handlesbars-wax`) wh
 
 
 ### Pages
-[**`src/views/`*.{hbs, html}](./src/views/index.hbs)
+[**`src/views/`*.{hbs, html}**](./src/views/index.hbs)
 
-Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page. Using the boilerplate partials, you can quickly build a new page using the partial `partials/layout.hbs`:
+Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page. Using the boilerplate partials, you can quickly build a new page using `partials/layout.hbs`:
 
 ```hbs
 <!-- Use the `extend` helper from `handlebars-layouts` -->
