@@ -103,6 +103,7 @@ Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page
 
 ```hbs
 <!-- ./src/views/partials/layout.hbs -->
+
 <!DOCTYPE html>
 <html lang="{{@root.site.lang}}">
   <!-- Use ./src/views/partials/head.hbs -->
@@ -120,15 +121,17 @@ Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page
 ```
 
 ```hbs
-<!-- example.hbs (see `./src/views/index.hbs` for a similar working example) -->
+<!-- example.hbs (example page) -->
+<!-- See `./src/views/index.hbs for a working example -->
+
 <!-- Use the `extend` helper from `handlebars-layouts` -->
 <!-- `page` should match a valid "name" string. See `partials/nav.hbs` -->
 {{#extend "layout" page="example"}}
   <!-- Use the `content` helper from `handlebars-layouts` -->
   <!-- The "body" block is defined within `partials/layout.hbs` -->
-  <!-- `mode="prepend"` defines that the body content should be placed
-       before the default content defined within `partials/layout.hbs` -->
   {{#content "body" mode="prepend"}}
+    <!-- `mode="prepend"` defines that the body content should be placed
+         before the default content defined within `partials/layout.hbs` -->
     <!-- All your page content goes here -->
     <div class="page">
       <div class="demo">
@@ -141,7 +144,7 @@ Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page
 
 Read more about the helpers from [`handlebars-layouts`](https://github.com/shannonmoeller/handlebars-layouts). 
 
-Note: Since Handlebars is only used for build time to precompile your `.hbs` to `.html`, all Handlebars-related packaces are dev-dependencies only; you can easily opt to simply not use handlebars and you won't have to worry about any bloat in your build files. 
+Note: Since Handlebars is only used for build time to precompile your `.hbs` to `.html`, all Handlebars-related packaces are dev-dependencies only; you can simply not use handlebars and you won't have to worry about any bloat in your build files. 
 
 
 ### Asset Paths
