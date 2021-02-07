@@ -1,39 +1,50 @@
 module.exports = {
+  // Global site data. Registered as handlebars data
   site: {
     title: 'My Site',
     lang: 'en',
   },
+  // The paths for your build files
   build: {
     dir: './build',
+    // Prefixes for your asset paths
+    // An empty string '' will put the file(s) at the root of the build dir
+    // A non-empty string will be used as a directory name within the build dir
+    js: '',
+    css: '',
     static: 'static',
   },
   styles: {
+    entry: './src/styles/style.scss',
     match: './src/styles/**/*.scss',
-    outFile: 'style.css',
+    output: 'style.css',
     options: {
       minify: true,
     }
   },
   js: {
     entry: './src/js/main.js',
-    match: './src/**/*.js',
-    outFile: 'bundle.js', // name of file, needs file ext.
+    match: './src/js/**/*.js',
+    output: 'bundle.js',
     options: {
-      uglify: false,
       minify: false,
+      uglify: false,
     }
   },
   html: {
     entry: './src/views/*.{hbs,html}',
     match : {
-      main: './src/views/**/*.{hbs,html}',
+      pages: './src/views/*.{hbs,html}',
       partials: './src/views/partials/**/*.hbs',
       helpers: './src/views/helpers/**/*.js',
-      layouts: './src/views/layouts/**/*.hbs',
       data: './src/data/**/*.{js,json}',
     },
     options: {
       beautify: true,
+      minify: false,
     }
+  },
+  static: {
+    match: './static/*',
   }
 }
