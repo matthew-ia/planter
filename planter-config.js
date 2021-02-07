@@ -1,15 +1,10 @@
 module.exports = {
-  // Global site data. Registered as handlebars data
   site: {
     title: 'My Site',
     lang: 'en',
   },
-  // The paths for your build files
   build: {
     dir: './build',
-    // Prefixes for your asset paths
-    // An empty string '' will put the file(s) at the root of the build dir
-    // A non-empty string will be used as a directory name within the build dir
     js: '',
     css: '',
     static: 'static',
@@ -27,8 +22,7 @@ module.exports = {
     match: './src/js/**/*.js',
     output: 'bundle.js',
     options: {
-      minify: false,
-      uglify: false,
+      minify: true,
     }
   },
   html: {
@@ -41,7 +35,6 @@ module.exports = {
     },
     options: {
       beautify: true,
-      minify: false,
     }
   },
   static: {

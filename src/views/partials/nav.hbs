@@ -1,8 +1,8 @@
 <nav>
   <ul>
-    {{!-- link: name, text, url, currentName --}}
-    <li>{{link "home" "Home" "./index.html" this.page}}</li>
-    <li>{{link "about" "About" "./about.html" this.page}}</li>
+    {{!-- link: name, text, url, page (context defining the name of the "current page") --}}
+    <li>{{link "home" "Home" "./index.html" this}}</li>
+    <li>{{link "about" "About" "./about.html" this}}</li>
     <li>{{link "github" "Github" "https://github.com/matthew-ia/planter" "externalLink"}}</li>
   </ul>
 </nav>

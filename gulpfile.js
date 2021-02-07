@@ -1,16 +1,21 @@
 const config = require('./planter-config');
+const utils = require('./planter-utils');
 const gulp = require('gulp');
 const { series } = require('gulp');
-const rename = require('gulp-rename');
 const merge = require('merge-stream')
-const del = require('del');
 const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const rename = require('gulp-rename');
+const gulpif = require('gulp-if');
+const del = require('del');
 const sass = require('gulp-sass');
 sass.compiler = require('sass');
+const handlebars = require('gulp-hb');
 const browserify = require('browserify');
 const babelify = require('babelify');
-const handlebars = require('gulp-hb');
+const sourcemaps = require('gulp-sourcemaps');
 const beautify = require('gulp-beautify');
+const terser = require('gulp-terser');
 const browserSync = require('browser-sync').create();
 
 // Configure global data (passed to handlebars)
@@ -21,21 +26,34 @@ const DATA = {
   // Paths to be used in your hbs files
   assets: {
     // CSS and JS are built full build paths to the output files
-    css: `${config.build.css}/${config.styles.output}`,
-    js: `${config.build.js}/${config.js.output}`,
+    css: config.build.css === '' 
+      ? `${config.styles.output}`
+      : `${config.build.css}/${config.styles.output}`,
+    js: config.build.js === '' 
+    ? `${config.js.output}`
+    : `${config.build.js}/${config.js.output}`,
     // This is just the static directory
     // Usage: "{{@root.assets.static}}/image.png"
-    static: config.build.static
+    static: `${config.build.static}`
   }
+}
+
+// Configure build options based on `planter-config.js`
+const options = {
+  styles: utils.configure.css(config.styles.options),
+  js: utils.configure.js(config.js.options),
+  html: utils.configure.html(config.html.options),
 }
 
 // Compile CSS using sass
 function styles() {
   return gulp.src(config.styles.entry)
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.init())
+    .pipe(sass(options.styles).on('error', sass.logError))
     .pipe(rename(
       config.styles.output
     ))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.build.dir));
 }
 
@@ -45,16 +63,19 @@ function js() {
       entries: config.js.entry, 
       debug: true
     })
-    .transform(babelify, { presets: ['@babel/preset-env'] })
+    .transform(babelify, { presets: ['@babel/preset-env'], sourceMaps: true })
     .bundle()
-    // FIX: is this next line necessary? can't just do something like:
-    // `pipe(gulp.dest(config.build.dir + config.js.output))`?
     .pipe(source(config.js.output))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(gulpif(options.js, terser(options.js)))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.build.dir));
 }
 
 // Compile HTML using handlebars
 function html() {
+  let filename = '';
   return gulp.src(config.html.entry)
     .pipe(handlebars()
       .data(DATA)
@@ -63,10 +84,10 @@ function html() {
       .helpers(require('handlebars-layouts'))
       .helpers(config.html.match.helpers)
     )
-    .pipe(beautify.html({ indent_size: 2 }))
     .pipe(rename((path) => {
       path.extname = '.html';
     }))
+    .pipe(gulpif(options.html, beautify.html(options.html)))
     .pipe(gulp.dest(config.build.dir));
 }
 
@@ -105,7 +126,8 @@ function watch() {
 
 function develop() {
   browserSync.init({
-    server: './build'
+    server: './build',
+    open: false,
   });
   watch();  
 }

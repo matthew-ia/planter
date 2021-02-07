@@ -1,7 +1,7 @@
 {
   "name": "planter",
-  "version": "0.9.1",
-  "description": "A HTML, CSS, and JS boilerplate for creatives.",
+  "version": "1.0.0",
+  "description": "An HTML, CSS, and JS boilerplate for creatives.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp",
@@ -10,10 +10,10 @@
     "clean-git": "rm -fr .git && git init"
   },
   "keywords": [
-    "css"
+    "html", "handlebars", "js", "sass", "babel", "css", "easy", "boilerplate", "designers", "creatives"
   ],
   "author": "Matthew Alicea",
-  "license": "MIT",
+  "license": "0BSD",
   "repository": "https://github.com/matthew-ia/planter.git",
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -28,13 +28,15 @@
     "gulp-beautify": "^3.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-hb": "^8.0.0",
+    "gulp-if": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser": "^2.0.1",
     "handlebars-layouts": "^3.1.4",
     "merge-stream": "^2.0.0",
     "sass": "^1.32.6",
+    "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
-  },
-  "dependencies": {}
+  }
 }
