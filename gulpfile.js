@@ -13,25 +13,28 @@ const handlebars = require('gulp-hb');
 const beautify = require('gulp-beautify');
 const browserSync = require('browser-sync').create();
 
-// Configure site data 
-const SITE_DATA = {
+// Configure global data (passed to handlebars)
+const DATA = {
   site: {
     ...config.site,
-    // For path resolutions based on your output paths
-    assets: {
-      css: config.styles.outFile,
-      js: config.js.outFile,
-      static: config.build.static
-    }
+  },
+  // Paths to be used in your hbs files
+  assets: {
+    // CSS and JS are built full build paths to the output files
+    css: `${config.build.css}/${config.styles.output}`,
+    js: `${config.build.js}/${config.js.output}`,
+    // This is just the static directory
+    // Usage: "{{@root.assets.static}}/image.png"
+    static: config.build.static
   }
 }
 
-// Compile CSS using node-sass
+// Compile CSS using sass
 function styles() {
-  return gulp.src(config.styles.match)
+  return gulp.src(config.styles.entry)
     .pipe(sass().on('error', sass.logError))
     .pipe(rename(
-      config.styles.outFile
+      config.styles.output
     ))
     .pipe(gulp.dest(config.build.dir));
 }
@@ -44,19 +47,19 @@ function js() {
     })
     .transform(babelify, { presets: ['@babel/preset-env'] })
     .bundle()
-    .pipe(source(config.js.outFile))
+    // FIX: is this next line necessary? can't just do something like:
+    // `pipe(gulp.dest(config.build.dir + config.js.output))`?
+    .pipe(source(config.js.output))
     .pipe(gulp.dest(config.build.dir));
 }
 
 // Compile HTML using handlebars
 function html() {
-  
   return gulp.src(config.html.entry)
     .pipe(handlebars()
-      .data(SITE_DATA)
+      .data(DATA)
       .data(config.html.match.data)
       .partials(config.html.match.partials)
-      .partials(config.html.match.layouts)
       .helpers(require('handlebars-layouts'))
       .helpers(config.html.match.helpers)
     )
@@ -93,10 +96,9 @@ function watch() {
     .on('change', browserSync.reload);
   // Watch HTML (handlebars: partials, helpers, and data)
   gulp.watch([
-    config.html.match.main,
+    config.html.match.pages,
     config.html.match.partials,
     config.html.match.helpers,
-    config.html.match.layouts,
     config.html.match.data,
   ], options, html).on('change', browserSync.reload);
 }

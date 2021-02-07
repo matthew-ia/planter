@@ -1,10 +1,12 @@
-{{#extend "layout"}}
-  {{#content "main"}}
-    <div class="container">
-      <img class="logo" src="{{site.assets.static}}/planter-logo.svg" alt="logo">
-      <h1>Welcome to Planter {{@root.planter.version}}</h1>
-      <p>An HTML, CSS, and JS boilerplate for creatives.</p>
-      <a href="https://github.com/matthew-ia/planter">GitHub</a>
+{{#extend "layout" page="home"}}
+  {{#content "body" mode="prepend"}}
+    <div class="page">
+      <div class="demo">
+        {{log this}}
+        <img class="logo" src="{{@root.assets.static}}/planter-logo.svg" alt="logo">
+        <h1>Welcome to Planter {{@root.planter.version}}</h1>
+        <p>An HTML, CSS, and JS boilerplate for creatives.</p>
+      </div>
     </div>
   {{/content}}
 {{/extend}}
