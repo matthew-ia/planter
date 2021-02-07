@@ -28,7 +28,7 @@ To start watching & building your source files, run `gulp develop` (or just `gul
 > gulp develop
 ```
 
-If you're cloning, planter includes a quick command you can use to quickly get rid of planter's git history and start fresh: `npm run git-clean`
+If you're cloning, planter includes a quick command you can use to quickly get rid of planter's git history and start fresh: `npm run git-clean`. Warning: this is nuclear; it runs `rm -fr .git/` in the project directory.
 
 
 ## Config
