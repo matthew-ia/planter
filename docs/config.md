@@ -31,16 +31,16 @@ styles: {
   // Entry file for compiling Sass
   // Can be an array of strings if you want multiple entries and CSS output files
   // TODO: A glob string also works, e.g. './src/styles/*.scss'
-  entry: './src/styles/styles.scss',
+  entry: './src/styles/style.scss',
   // Glob to watch for changes
   match: './src/styles/**/*.scss',
   // Specify the path of the output file
-  // '{build.dir}/' automatically gets prepended to this string
+  // This gets placed in the directory specified by build.dir
   // TODO: Use a splat (e.g. '*.css'), to keep the original name of the entry file
   output: 'style.css',
   options: {
-    // Minify output CSS. Default: true
-    minify: true,
+    // Minify output CSS. Default: { outputStyle: 'compressed' } passed to gulp-sass
+    minify: { outputStyle: 'compressed' },
   }
 }
 
@@ -52,14 +52,13 @@ js: {
   // Glob to watch for changes
   match: './src/js/**/*.js',
   // Specify the path of the output file
-  // '{build.dir}/' automatically gets prepended to this string
+  // This gets placed in the directory specified by build.dir
   // TODO: Use a splat (e.g. '*.js'), to keep the original name of the entry file
   output: 'bundle.js'
   options: {
-    // Minify output JS bundle. Default: true
-	  minify: true,  
-    // Uglify output JS bundle. Default: false
-		uglify: false,	
+    // Minify options to pass to terser. Default: terser defaults
+    // See terser options: https://github.com/terser/terser#minify-options
+	  minify: {},  
   }
 }
 
@@ -82,10 +81,16 @@ html: {
     data: './src/data/**/*.{js,json}',
   },
   options: {
-    // Beautify HTML output. Default: true
-    beautify: true,
-    // Minify HTML output. Default: false
-    minify: false,
+    // Beautify HTML output. Default: { indent_size: '2' } passed to gulp-beautify
+    beautify: { indent_size: '2' },
+    // E.g., if you wanted to minify HTML output, you could pass options to beautify like so:
+    /*
+    beautify: {
+      indent_size: '0',
+      preserve_newlines: false,
+      eol: '',
+    }
+    */
   },
   static: {
     // Glob for watching & copying static files

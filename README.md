@@ -76,7 +76,7 @@ Essentially, Browserify uses an entry point file(s) to determine where it should
 
 
 ## Sass (Styles)
-The file `./src/styles/style.scss` is used as an entry point for the output `.css` file. 
+The file `./src/styles/style.scss` is used as an entry point for the output `.css` file. By default, the watch task will watch for any `.scss` files in `./src/styles/` to trigger a recompile of the output, regardless of how you organize your Sass and Sass partials.
 
 
 ## Handlebars
@@ -100,6 +100,8 @@ The gulp tasks for building HTML use `gulp-hb` (powered by `handlesbars-wax`) wh
 Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page. Using the boilerplate partials, you can quickly build a new page using `partials/layout.hbs`:
 
 ```hbs
+<!-- ./src/views/example.hbs -->
+
 <!-- Use the `extend` helper from `handlebars-layouts` -->
 <!-- The `page` variable gets passed to an instance of `partials/nav.hbs` which handle current-page styling -->
 {{#extend "layout" page="about"}}
@@ -140,6 +142,7 @@ module.exports = {
   //...
   build: {
     dir: './build',
+    // ...
     static: 'static',
   }
   //...
@@ -156,6 +159,8 @@ This way, if you modify your build paths in `planter-config.js`, you don't need 
 This `@root` is an accessor for the pre-registered data loaded in the html build task. `@root.assets` is defined by `DATA.assets` (in `gulpfile.js`).
 
 ```js
+// gulpfile.js
+
 /* 
  * The data passed here from config is also used by the build tasks.
  * To change the file paths of your build assets, you should modify
@@ -165,12 +170,12 @@ This `@root` is an accessor for the pre-registered data loaded in the html build
 const DATA = {
   //...
   assets: {
-    // The compiled CSS file path
-    css: config.styles.output,
-    // The transpiled/bundlded JS file path
-    js: config.js.output,
-    // The build directory name for static files
-    static: config.build.static
+    // The full path for the compiled CSS output
+    css: /* ... */,
+    // The full path for the bundled JS output
+    js: /* ... */,
+    // The path *prefix* for static files
+    static: /* ... */,
   }	
 }
 ```
@@ -182,12 +187,7 @@ const DATA = {
 
 Other static assets like images, videos, fonts, and other documents can all be placed within the `static` directory. This entire directory will be directly copied to the build directory (e.g. `./static/planter-logo.svg` gets copied to `./build/static/planter-logo.svg`).
 
-## More Info
+### Favicon
+[**`static/favicon.ico`**](./static/)
 
-Some extra info about Planter that might help, especially if you haven't some of the included tools like Gulp before.
-
-#### Styles
-The `styles` task uses the `src/styles/**/*.scss` glob as the entry point for the source. This means it's getting _all_ the `.scss` files in `src/styles/` and piping them to the sass plugin for compilation into an output `.css` file.
-
-#### JavaScript
-The `js` task uses `src/js/main.js` as the entry point by default. It uses [Browserify](http://browserify.org/) to bundle all the dependencies that stem from `main.js` into a single file, `bundle.js`, by default. [Babelify](https://github.com/babel/babelify) is also used to convert any ES6+ flavored code you write into ES5 so Browserify can make use of it (i.e. changing your `import` syntax to `require`).
+By default, the `static` gulp task handles `favicon.ico` separately: it copies it from `./static` to the root of `./build`.

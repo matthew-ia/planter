@@ -28,13 +28,15 @@
     "gulp-beautify": "^3.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-hb": "^8.0.0",
+    "gulp-if": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser": "^2.0.1",
     "handlebars-layouts": "^3.1.4",
     "merge-stream": "^2.0.0",
     "sass": "^1.32.6",
+    "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
-  },
-  "dependencies": {}
+  }
 }
