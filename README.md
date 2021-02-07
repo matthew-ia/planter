@@ -95,7 +95,7 @@ The gulp tasks for building HTML use `gulp-hb` (powered by `handlesbars-wax`) wh
 
 
 ### Pages
-[**`src/views/`*.{hbs, html}**](./src/views/index.hbs)
+[**`src/views/*.{hbs, html}`**](./src/views/index.hbs)
 
 Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page. Using the boilerplate partials, you can quickly build a new page using `partials/layout.hbs`:
 
