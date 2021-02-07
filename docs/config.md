@@ -3,6 +3,8 @@
 
 The Planter config, `planter-config.js`, allows you to configure settings for the gulp tasks. This config allows you to customize things like the names of your entry and output file names, and change where build/watch tasks look for files if you've modified your project structure, all without needing to update the gulp tasks manually. 
 
+### Config Breakdown
+
 ```js
 // Global site data. Merged with data passed into handlebars
 site: {
@@ -83,8 +85,7 @@ html: {
   options: {
     // Beautify HTML output. Default: { indent_size: '2' } passed to gulp-beautify
     beautify: { indent_size: '2' },
-    // E.g., if you wanted to minify HTML output, you could pass options to beautify like so:
-    /*
+    /* E.g., if you want to minify HTML output, you could pass the following options to beautify:
     beautify: {
       indent_size: '0',
       preserve_newlines: false,

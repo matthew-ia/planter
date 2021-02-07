@@ -18,13 +18,6 @@ const beautify = require('gulp-beautify');
 const terser = require('gulp-terser');
 const browserSync = require('browser-sync').create();
 
-// Configure build options based on `planter-config.js`
-const options = {
-  styles: utils.configure.css(config.styles.options),
-  js: utils.configure.js(config.js.options),
-  html: utils.configure.html(config.html.options),
-}
-
 // Configure global data (passed to handlebars)
 const DATA = {
   site: {
@@ -43,6 +36,13 @@ const DATA = {
     // Usage: "{{@root.assets.static}}/image.png"
     static: `${config.build.static}`
   }
+}
+
+// Configure build options based on `planter-config.js`
+const options = {
+  styles: utils.configure.css(config.styles.options),
+  js: utils.configure.js(config.js.options),
+  html: utils.configure.html(config.html.options),
 }
 
 // Compile CSS using sass

@@ -76,6 +76,8 @@ Essentially, Browserify uses an entry point file(s) to determine where it should
 
 
 ## Sass (Styles)
+[**`src/styles/`**](./src/views/)
+
 The file `./src/styles/style.scss` is used as an entry point for the output `.css` file. By default, the watch task will watch for any `.scss` files in `./src/styles/` to trigger a recompile of the output, regardless of how you organize your Sass and Sass partials.
 
 
@@ -89,9 +91,9 @@ The gulp tasks for building HTML use `gulp-hb` (powered by `handlesbars-wax`) wh
 - Any `.js` file within `./src/views/helpers` will be registered as a handlebars helper*
 - Any `.json` or `.js` file within `./src/data` will be registered as handlebars data**
 
-\* See `handlebars-wax` [docs regarding registering partials, helpers, and decorators](https://github.com/shannonmoeller/handlebars-wax#registering-partials-helpers-and-decorators) for more info on how to export your modules as helpers, etc.
+\* See the `handlebars-wax` [docs regarding registering partials, helpers, and decorators](https://github.com/shannonmoeller/handlebars-wax#registering-partials-helpers-and-decorators) for more info on how to export your modules as helpers, etc.
 
-\*\* See `handlebars-wax` [docs regarding registering data](https://github.com/shannonmoeller/handlebars-wax#registering-data) for more info on the registered data's structure
+\*\* See the `handlebars-wax` [docs regarding registering data](https://github.com/shannonmoeller/handlebars-wax#registering-data) for more info on how to register and access data
 
 
 ### Pages
@@ -100,16 +102,32 @@ The gulp tasks for building HTML use `gulp-hb` (powered by `handlesbars-wax`) wh
 Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page. Using the boilerplate partials, you can quickly build a new page using `partials/layout.hbs`:
 
 ```hbs
-<!-- ./src/views/example.hbs -->
+<!-- ./src/views/partials/layout.hbs -->
+<!DOCTYPE html>
+<html lang="{{@root.site.lang}}">
+  <!-- Use ./src/views/partials/head.hbs -->
+  {{> head }}
+<body>
+  <!-- Pass 'page' as context data for nav; for current-page styling -->
+  {{> nav this.page }}
+  <!-- Use the `block` helper from `handlebars-layouts` -->
+  <!-- This defines the "body" block and its default content -->
+  {{#block "body"}}
+    <script type="text/javascript" src="{{@root.assets.js}}"></script>
+  {{/block}}
+</body>
+</html>
+```
 
+```hbs
+<!-- example.hbs (see `./src/views/index.hbs` for a similar working example) -->
 <!-- Use the `extend` helper from `handlebars-layouts` -->
-<!-- The `page` variable gets passed to an instance of `partials/nav.hbs` which handle current-page styling -->
-{{#extend "layout" page="about"}}
+<!-- `page` should match a valid "name" string. See `partials/nav.hbs` -->
+{{#extend "layout" page="example"}}
   <!-- Use the `content` helper from `handlebars-layouts` -->
   <!-- The "body" block is defined within `partials/layout.hbs` -->
-  <!-- `mode="prepend"` defines that the body content should come
-       before the default content defined within `partials/layout.hbs`
-  -->
+  <!-- `mode="prepend"` defines that the body content should be placed
+       before the default content defined within `partials/layout.hbs` -->
   {{#content "body" mode="prepend"}}
     <!-- All your page content goes here -->
     <div class="page">
@@ -117,20 +135,17 @@ Any `.hbs` or `.html` file at the root of `src/views/` will be treated as a page
         I'm super cool page content!
       </div>
     </div>
-    <!-- If you want to define additional scripts in the body, you can
-         but note that the default `bundle.js` script will come after the body
-         content you define above with `mode="prepend"`
-    -->
   {{/content}}
 {{/extend}}
 ```
 
-Read more the helpers from [`handlebars-layouts`](https://github.com/shannonmoeller/handlebars-layouts). 
+Read more about the helpers from [`handlebars-layouts`](https://github.com/shannonmoeller/handlebars-layouts). 
 
-Since handlebars is used only for build time to compile your `.hbs` to `.html`, Handlebars and use of the helpers mentioned about from `handlebars-layouts` are not dependencies (only devDepencies), so you can easily opt to not use them and not have to worry about any bloat in your build files. 
+Note: Since Handlebars is only used for build time to precompile your `.hbs` to `.html`, all Handlebars-related packaces are dev-dependencies only; you can easily opt to simply not use handlebars and you won't have to worry about any bloat in your build files. 
+
 
 ### Asset Paths
-Rather than hard-coding your asset paths relative to their final build directory structure, you can use the site data passed into handlebars to manage your assets' paths. 
+Rather than hard-coding your asset paths relative to their final build directory structure, you can use data passed into handlebars to manage your assets' paths. 
 
 In `gulpfile.js`, the global constant `DATA` constructs an easy way to reference your configured build paths for CSS, JS, and other static assets (e.g. `.jpg`, `.md`, etc.) within handlebars.
 
@@ -156,7 +171,9 @@ In `index.hbs`, you would write an image's `src` value like so:
 
 This way, if you modify your build paths in `planter-config.js`, you don't need to manually update all your path references.
 
-This `@root` is an accessor for the pre-registered data loaded in the html build task. `@root.assets` is defined by `DATA.assets` (in `gulpfile.js`).
+Read more about `planter-config.js`'s build options in the [config docs](./docs/config.md).
+
+The `@root` is an accessor for the pre-registered data loaded in the html build task. `@root.assets` is defined by `DATA.assets` (in `gulpfile.js`).
 
 ```js
 // gulpfile.js
@@ -174,18 +191,18 @@ const DATA = {
     css: /* ... */,
     // The full path for the bundled JS output
     js: /* ... */,
-    // The path *prefix* for static files
+    // The path prefix (i.e. directory) for static files
     static: /* ... */,
   }	
 }
 ```
 
-[Read more about `@root` and the template context](https://github.com/shannonmoeller/gulp-hb#template-context) in the `gulp-hb` docs.
+[Read more about `@root`](https://github.com/shannonmoeller/gulp-hb#template-context) and the template context in the `gulp-hb` docs.
 
 ## Static Assets
 [**`static/`**](./static/)
 
-Other static assets like images, videos, fonts, and other documents can all be placed within the `static` directory. This entire directory will be directly copied to the build directory (e.g. `./static/planter-logo.svg` gets copied to `./build/static/planter-logo.svg`).
+Static assets like images, videos, fonts, and other documents can all be placed within the `static` directory. This entire directory will be directly copied to the build directory (e.g. `./static/planter-logo.svg` gets copied to `./build/static/planter-logo.svg`).
 
 ### Favicon
 [**`static/favicon.ico`**](./static/)
