@@ -94,11 +94,11 @@ function html() {
 function static() {
   // Copy ./static and its contents to the build path
   const static = gulp.src(['./static/*', '!./static/favicon.*'])
-    .pipe(gulp.dest('./build/static/'));
+    .pipe(gulp.dest(`${config.build.dir}/${config.build.static}`));
 
   // Copy favicon files separately from the other static files
   const favicons = gulp.src('./static/favicon.*')
-  .pipe(gulp.dest('./build/'));
+  .pipe(gulp.dest(`${config.build.dir}`));
 
   return merge(static, favicons);
 }
