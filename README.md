@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+> This repo is deprecated, and replaced by an evolution of the idea &rarr; https://www.planter.dev/
+
+Planter is now a CLI that lets you start projects from a _library_ of "planters". There is also a direct replacement for this basic HTML project starter: [planter-basic](https://www.planter.dev/docs/basic/getting-started)
+
+---
+
 # Planter
 
 <p align='center'><img src='./static/planter-logo.svg' width='200'></p>
